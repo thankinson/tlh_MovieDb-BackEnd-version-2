@@ -23,7 +23,6 @@ exports.listUser = async (req, res) => {
     };
 };
 
-
 exports.login = async (req, res) =>{
     try {
         const token = await jwt.sign({_id: req.user._id}, process.env.SECRET)
@@ -68,3 +67,32 @@ exports.deleteUser = async (req, res) => {
     }
   };
 
+  exports.addFilm = async (req, res) => {
+    try {
+      console.log(req)
+      const newFilm = req.body.movies;
+      const checkUser = await User.findOne({ username: req.body.username });
+      const movieAdded = await User.updateOne(
+        {
+          _id: checkUser.id,
+        },
+        { $addToSet: { movies: newFilm} }
+      );
+        res.status(200).send(movieAdded);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ err: error.message });
+    }
+  };
+
+  exports.listFilms = async (req, res) => {
+    try {
+      const userFilms = await User.findOne({
+        username: req.user.username,
+      });
+      res.status(200).send(userFilms.movies);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ err: error.message });
+    }
+  };
