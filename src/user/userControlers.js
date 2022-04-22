@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { restart } = require("nodemon");
 const User = require("./userModel");
 
 exports.addUser = async (req, res) => {
@@ -67,6 +68,8 @@ exports.deleteUser = async (req, res) => {
     }
   };
 
+  // film controls
+
   exports.addFilm = async (req, res) => {
     try {
       console.log(req)
@@ -94,5 +97,24 @@ exports.deleteUser = async (req, res) => {
     } catch (error) {
       console.log(error);
       res.status(500).send({ err: error.message });
+    }
+  };
+
+  exports.deleteMovie = async (req, res) => {
+    try {
+      console.log(req)
+      const deleteMovie = req.body.movies;
+      const checkUser = await User.findOne({ username: req.body.username });
+      const movieRemoved = await User.updateOne(
+      {
+        _id: checkUser._id
+      },
+      { $pull: { movies: deleteMovie } },
+    
+      );
+      res.status(200).send(movieRemoved);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ err: error.message});
     }
   };

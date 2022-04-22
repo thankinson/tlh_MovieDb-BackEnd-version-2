@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { addUser, login, updatePassword, deleteUser, listUser, addFilm, listFilms  } = require("./userControlers");
+const { addUser, login, updatePassword, deleteUser, listUser, addFilm, listFilms, deleteMovie  } = require("./userControlers");
 const { hashPassword, decryptPassword, checkToken } = require("../middleware");
 const userRouter = Router();
 
@@ -12,5 +12,6 @@ userRouter.delete("/user/:filterVal/:filterKey", deleteUser);
 
 userRouter.get("/films", checkToken, listFilms);
 userRouter.put("/addtitle", addFilm);
+userRouter.patch("/remove", deleteMovie)
 
 module.exports = userRouter;
