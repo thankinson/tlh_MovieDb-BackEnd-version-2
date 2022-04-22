@@ -102,13 +102,15 @@ exports.deleteUser = async (req, res) => {
 
   exports.deleteMovie = async (req, res) => {
     try {
-      const deleteMovie = req.body.deleteMovie;
+      console.log(req)
+      const deleteMovie = req.body.movies;
       const checkUser = await User.findOne({ username: req.body.username });
       const movieRemoved = await User.updateOne(
       {
-        _id: checkUser.id
+        _id: checkUser._id
       },
-      { $pull: { moives: deleteMovie}}
+      { $pull: { movies: deleteMovie } },
+    
       );
       res.status(200).send(movieRemoved);
     } catch (error) {
