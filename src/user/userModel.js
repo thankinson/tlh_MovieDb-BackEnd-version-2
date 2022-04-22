@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     movies: [{ tmdbId:{ type: String, required: true },
-               title:{ type: String,  required: true },
+               title:{ type: String, required: true },
                poster: { type: String },
             }]
     
